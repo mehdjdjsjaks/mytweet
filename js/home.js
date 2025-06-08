@@ -1,40 +1,50 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAlbxBTEXhiLLuBttk5wEoKFLdT5mTSZVg",
-  authDomain: "mytweet-6195c.firebaseapp.com",
-  projectId: "mytweet-6195c",
-  storageBucket: "mytweet-6195c.appspot.com",
-  messagingSenderId: "795092445649",
-  appId: "1:795092445649:web:2cb97c40afeda12ac058f0",
-  measurementId: "G-ZH8N56KCLE"
-};
+const auth = getAuth();
+const db = getFirestore();
+let currentUser = null;
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    currentUser = user;
+    loadPosts();
+  } else {
+    window.location.href = "index.html";
+  }
+});
 
 window.submitPost = async function () {
-  const content = document.getElementById("postContent").value.trim();
-  if (!content) return;
+  const text = document.getElementById("newPost").value.trim();
+  if (!text) return alert("Write something to post!");
   await addDoc(collection(db, "posts"), {
-    content,
-    createdAt: new Date().toISOString()
+    text,
+    uid: currentUser.uid,
+    createdAt: new Date()
   });
-  document.getElementById("postContent").value = "";
+  document.getElementById("newPost").value = "";
   loadPosts();
 };
 
 async function loadPosts() {
-  const postsRef = collection(db, "posts");
-  const q = query(postsRef, orderBy("createdAt", "desc"));
-  const snapshot = await getDocs(q);
-  const exploreDiv = document.getElementById("explorePosts");
-  exploreDiv.innerHTML = "";
-  snapshot.forEach(doc => {
-    const post = doc.data();
-    exploreDiv.innerHTML += `<div class="post">${post.content}</div>`;
+  const querySnapshot = await getDocs(collection(db, "posts"));
+  const container = document.getElementById("exploreFeed");
+  container.innerHTML = "";
+  querySnapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    const div = document.createElement("div");
+    div.className = "post";
+    div.innerHTML = `
+      <p>${data.text}</p>
+      ${data.uid === currentUser.uid ? `<button onclick="deletePost('${docSnap.id}')">🗑️ Delete</button>` : ""}
+    `;
+    container.appendChild(div);
   });
 }
 
-window.addEventListener("DOMContentLoaded", loadPosts);
+window.deletePost = async function (postId) {
+  if (confirm("Delete this post?")) {
+    await deleteDoc(doc(db, "posts", postId));
+    loadPosts();
+  }
+};
