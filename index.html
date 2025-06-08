@@ -5,24 +5,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>mytweet</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 </head>
 <body>
-  <div id="container">
-    <div id="pages">
-      <div id="homePage" class="page">خانه (تنظیم پروفایل)</div>
-      <div id="postPage" class="page hidden">ارسال پست متنی</div>
-      <div id="explorePage" class="page hidden">اکسپلور (نمایش پست‌ها)</div>
-    </div>
 
-    <nav id="bottomNav">
-      <button id="navHome">🏠</button>
-      <button id="navPost">➕</button>
-      <button id="navExplore">🔍</button>
-    </nav>
+<!-- بخش لاگین / ثبت‌نام -->
+<div id="authPage" class="page">
+  <h2>ورود / ثبت‌نام</h2>
+  <input type="email" id="email" placeholder="ایمیل">
+  <input type="password" id="password" placeholder="رمز عبور">
+  <button id="btnLogin">ورود</button>
+  <button id="btnSignup">ثبت‌نام</button>
+</div>
+
+<!-- قسمت‌های سایت بعد از ورود -->
+<div id="mainPage" class="page hidden">
+  <div id="home" class="subpage active">
+    <h2>پروفایل من</h2>
+    <input type="text" id="displayName" placeholder="نام شما">
+    <input type="file" id="profilePic" accept="image/*">
+    <button onclick="saveProfile()">ذخیره پروفایل</button>
+    <div id="profilePreview"></div>
   </div>
-  <script src="app.js"></script>
+
+  <div id="post" class="subpage">
+    <h2>ارسال پست</h2>
+    <textarea id="postText" placeholder="چی تو ذهنته؟"></textarea>
+    <button onclick="submitPost()">ارسال</button>
+    <div id="myPosts"></div>
+  </div>
+
+  <div id="explore" class="subpage">
+    <h2>اکسپلور</h2>
+    <div id="exploreFeed"></div>
+  </div>
+
+  <div class="navbar">
+    <button onclick="switchSubpage('home')">🏠</button>
+    <button onclick="switchSubpage('post')">➕</button>
+    <button onclick="switchSubpage('explore')">🔍</button>
+  </div>
+</div>
+
+<script type="module" src="firebase-config.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
