@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyTweet - Profile</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="dark">
+  <div class="top-bar">MyTweet - Profile</div>
+
+  <div class="feed-container">
+    <h2>Set Profile</h2>
+    <input type="text" id="name" placeholder="Your Name" />
+    <textarea id="bio" placeholder="Your Bio"></textarea>
+    <input type="text" id="photoURL" placeholder="Image URL" />
+    <button onclick="saveProfile()">Save</button>
+
+    <h2>Your Profile</h2>
+    <div id="profileInfo"></div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="profile.html"><span class="icon">👤</span></a>
+    <a href="home.html"><span class="icon">➕</span></a>
+    <a href="explore.html"><span class="icon">🔍</span></a>
+  </div>
+
+  <script type="module" src="js/firebase.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>
