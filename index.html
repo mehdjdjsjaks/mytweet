@@ -2,51 +2,60 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>mytweet</title>
-  <link rel="stylesheet" href="style.css">
+  <title>ورود به myTweet</title>
 </head>
 <body>
-
-<!-- بخش لاگین / ثبت‌نام -->
-<div id="authPage" class="page">
-  <h2>ورود / ثبت‌نام</h2>
-  <input type="email" id="email" placeholder="ایمیل">
-  <input type="password" id="password" placeholder="رمز عبور">
+  <h2>ورود به myTweet</h2>
+  <input type="email" id="emailInput" placeholder="ایمیل"><br><br>
+  <input type="password" id="passInput" placeholder="رمز عبور"><br><br>
   <button id="btnLogin">ورود</button>
-  <button id="btnSignup">ثبت‌نام</button>
-</div>
+  <button id="btnRegister">ثبت‌نام</button>
 
-<!-- قسمت‌های سایت بعد از ورود -->
-<div id="mainPage" class="page hidden">
-  <div id="home" class="subpage active">
-    <h2>پروفایل من</h2>
-    <input type="text" id="displayName" placeholder="نام شما">
-    <input type="file" id="profilePic" accept="image/*">
-    <button onclick="saveProfile()">ذخیره پروفایل</button>
-    <div id="profilePreview"></div>
-  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
 
-  <div id="post" class="subpage">
-    <h2>ارسال پست</h2>
-    <textarea id="postText" placeholder="چی تو ذهنته؟"></textarea>
-    <button onclick="submitPost()">ارسال</button>
-    <div id="myPosts"></div>
-  </div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAlbxBTEXhiLLuBttk5wEoKFLdT5mTSZVg",
+      authDomain: "mytweet-6195c.firebaseapp.com",
+      projectId: "mytweet-6195c",
+      storageBucket: "mytweet-6195c.appspot.com",
+      messagingSenderId: "795092445649",
+      appId: "1:795092445649:web:2cb97c40afeda12ac058f0",
+      measurementId: "G-ZH8N56KCLE"
+    };
 
-  <div id="explore" class="subpage">
-    <h2>اکسپلور</h2>
-    <div id="exploreFeed"></div>
-  </div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  <div class="navbar">
-    <button onclick="switchSubpage('home')">🏠</button>
-    <button onclick="switchSubpage('post')">➕</button>
-    <button onclick="switchSubpage('explore')">🔍</button>
-  </div>
-</div>
+    // ورود
+    document.getElementById("btnLogin").addEventListener("click", () => {
+      const email = document.getElementById("emailInput").value;
+      const password = document.getElementById("passInput").value;
 
-<script type="module" src="firebase-config.js"></script>
-<script src="script.js"></script>
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("ورود موفق!");
+          window.location = "home.html";
+        })
+        .catch((error) => {
+          alert("خطا: " + error.message);
+        });
+    });
+
+    // ثبت‌نام
+    document.getElementById("btnRegister").addEventListener("click", () => {
+      const email = document.getElementById("emailInput").value;
+      const password = document.getElementById("passInput").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("ثبت‌نام موفق!");
+        })
+        .catch((error) => {
+          alert("خطا: " + error.message);
+        });
+    });
+  </script>
 </body>
 </html>
