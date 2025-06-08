@@ -1,61 +1,22 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ورود به myTweet</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyTweet - Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/firebase.js"></script>
 </head>
-<body>
-  <h2>ورود به myTweet</h2>
-  <input type="email" id="emailInput" placeholder="ایمیل"><br><br>
-  <input type="password" id="passInput" placeholder="رمز عبور"><br><br>
-  <button id="btnLogin">ورود</button>
-  <button id="btnRegister">ثبت‌نام</button>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAlbxBTEXhiLLuBttk5wEoKFLdT5mTSZVg",
-      authDomain: "mytweet-6195c.firebaseapp.com",
-      projectId: "mytweet-6195c",
-      storageBucket: "mytweet-6195c.appspot.com",
-      messagingSenderId: "795092445649",
-      appId: "1:795092445649:web:2cb97c40afeda12ac058f0",
-      measurementId: "G-ZH8N56KCLE"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // ورود
-    document.getElementById("btnLogin").addEventListener("click", () => {
-      const email = document.getElementById("emailInput").value;
-      const password = document.getElementById("passInput").value;
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("ورود موفق!");
-          window.location = "home.html";
-        })
-        .catch((error) => {
-          alert("خطا: " + error.message);
-        });
-    });
-
-    // ثبت‌نام
-    document.getElementById("btnRegister").addEventListener("click", () => {
-      const email = document.getElementById("emailInput").value;
-      const password = document.getElementById("passInput").value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("ثبت‌نام موفق!");
-        })
-        .catch((error) => {
-          alert("خطا: " + error.message);
-        });
-    });
-  </script>
+<body class="dark">
+  <div class="auth-container">
+    <h1>MyTweet</h1>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <div>
+      <button onclick="login()">Login</button>
+      <button onclick="signup()">Sign Up</button>
+    </div>
+    <p id="message"></p>
+  </div>
 </body>
 </html>
