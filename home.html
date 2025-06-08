@@ -1,28 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MyTweet - Home</title>
   <link rel="stylesheet" href="css/style.css" />
-  <script type="module" src="js/home.js"></script>
 </head>
 <body class="dark">
-  <div class="top-bar">MyTweet</div>
+  <div class="top-bar">MyTweet - Home</div>  <div class="feed-container">
+    <p>Welcome to Home</p><h2>New Post</h2>
+<textarea id="newPost" placeholder="What's on your mind?"></textarea>
+<button onclick="submitPost()">Post</button>
 
-  <div class="feed-container">
-    <h2>New Post</h2>
-    <textarea id="postContent" placeholder="What's on your mind?"></textarea>
-    <button onclick="submitPost()">Post</button>
+<h2>Explore</h2>
+<div id="exploreFeed"></div>
 
-    <h2>Explore</h2>
-    <div id="explorePosts"></div>
-  </div>
-
-  <div class="bottom-nav">
-    <span>👤</span>
-    <span>➕</span>
-    <span>🔍</span>
-  </div>
-</body>
+  </div>  <div class="bottom-nav">
+    <span class="icon profile-icon">👤</span>
+    <span class="icon post-icon">➕</span>
+    <span class="icon explore-icon">🔍</span>
+  </div>  <script type="module" src="js/firebase.js"></script>  <script src="js/home.js"></script></body>
 </html>
